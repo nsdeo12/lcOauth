@@ -1,0 +1,259 @@
+<!-- changes for bgrequest -->
+
+<nav class="navbar navbar-default " role="navigation" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#customerHome" ng-click="setTab(0)" class="navbar-brand">
+              <img style="max-width: 110px;margin-top: -9px;border-color:Black;"
+                   src="./frontend/brand_logo.png"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="active" ><a href="#customerHome" ng-click="setTab(0)"><strong>Digital Trade Chain</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Bank Guarantee<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li class="divider"><strong></strong></li>
+                        <li><a href="#customerHome">View Bank Guarantee</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="display:inlineblock;"><a><strong>{{node}}</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <button ng-click="logout()" type="button" style="background:none!important;border:none;padding:0!important;">Logout</button>
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+
+            <form name="loginform" novalidate ng-submit="loginform.$valid && submit()">
+                <div ng-class="{true: 'error'}[submitted && form.bgamount.$invalid]">
+                    <fieldset class="scheduler-border" style="float:left;width:100%">
+                        <legend class="scheduler-border">Amendment Details</legend>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="bgAmendNo" class="control-label">BG Amend No:</label>
+                                <input type="string" ng-model="bgAmendForm.bgAmendNo" class="form-control" id="bgAmendNo" name="bgAmendNo" disabled="true" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="bgAmendReqNo" class="control-label">BG Amend Request No:</label>
+                                <input type="string" ng-model="bgAmendForm.bgAmendReqNo" class="form-control" id="bgAmendReqNo" name="bgAmendReqNo" disabled="true" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="amendbgamount" class="control-label">BG Amount :</label>
+                                <input type="text" to-number ng-model="bgAmendForm.bgamendamount" class="form-control" id="amendbgamount" name="amendbgamount"  ng-change="changebgamendfields();bgAmendAmountcheck()" >
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="amendExpiryDate" class="control-label">Expiry Date :</label>
+                                <input type="date" ng-model="bgAmendForm.bgamendexpirydate" class="form-control" id="amendExpiryDate" name="amendExpiryDate" ng-change="changebgamendfields()">
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="amendtNC" class="control-label">Terms and Conditions:</label>
+                                <textarea ng-model="bgAmendForm.bgamendtermsandconditions" class="form-control" id="amendtNC" name="amendtNC" ng-change="changebgamendfields()" style="width:100%"></textarea>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+                    <fieldset class="scheduler-border" style="float:left;">
+                        <legend class="scheduler-border">Applicant Details</legend>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="bgId" class="control-label">BG Id:</label>
+                                <input type="string" ng-model="bgAmendForm.bgID" class="form-control" id="bgId" name="bgId" disabled="true" required>
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="custRef" class="control-label">Customer Ref :</label>
+                                <input type="string" ng-model="bgAmendForm.customerReference" class="form-control" id="custRef" name="custRef" disabled="true" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="bgcurrency" class="control-label">BG Currency <font color="red">*</font>:</label>
+                                <input type="string" ng-model="bgAmendForm.currency" class="form-control" id="bgcurrency" name="bgcurrency" disabled="true" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="bgamount" class="control-label">BG Amount <font color="red">*</font>:</label>
+                                <input type="text" to-number ng-model="bgAmendForm.principalAmount" class="form-control" disabled="true" id="bgamount" name="bgamount"  ng-change="bgAmountcheck()">
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicant" class="control-label">Applicant Customer:</label>
+                                <input type="string" ng-model="bgAmendForm.applicantCustomer" class="form-control" name="applicant" id="applicant" disabled="true" required="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicantaddress" class="control-label">Applicant Address:</label>
+                                <input type="text" ng-model="bgAmendForm.applicantCustomerAddress" class="form-control" id="applicantaddress" name="applicantaddress" disabled="true" required="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicantBank" class="control-label">Applicant Bank:</label>
+                                <input type="string" ng-model="bgAmendForm.applicantBank" disabled="true" class="form-control" id="applicantBank" name="applicantBank" required>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3">
+                                <label for="applicantBankAddress" class="control-label"> Applicant Bank Address:</label>
+                                <input type="text" ng-model="bgAmendForm.applicantBankAddress" class="form-control" id="applicantBankAddress" name="applicantBankAddress" disabled="true" required>
+
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <fieldset class="scheduler-border" style="float:right;">
+                        <legend class="scheduler-border">Guarantee Details</legend>
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="dealDate" class="control-label">Deal Date :</label>
+                                <input type="date" ng-model="bgAmendForm.dealDate" disabled="true" class="form-control" id="dealDate" name="dealDate" required >
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="valueDate" class="control-label">Value Date :</label>
+                                <input type="date" ng-model="bgAmendForm.valueDate" disabled="true" class="form-control" id="valueDate" name="valueDate"   >
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="expiryDate" class="control-label">Expiry Date :</label>
+                                <input type="date" ng-model="bgAmendForm.expiryDate" class="form-control" disabled="true" id="expiryDate" name="expiryDate" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="maturityDate" class="control-label">Maturity Date :</label>
+                                <input type="date" ng-model="bgAmendForm.maturityDate" disabled="true" class="form-control" id="maturityDate" name="maturityDate"   >
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="tNC" class="control-label">Terms and Conditions:</label>
+                                <input style="width:100%" ng-model="bgAmendForm.termsAndConditions" class="form-control" disabled="true" name="tNC" id="tNC"></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="aRule" class="control-label">Applicable Rule:</label>
+                                <input type="text" name="aRule" id="aRule" value="" class="form-control" style="width:100%" disabled="true" ng-model="bgAmendForm.applicableRule">
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="gRef" class="control-label">Guarantee Ref:</label>
+                                <input type="text" name="gRef" id="gRef" value="" class="form-control" style="width:100%" disabled="true" ng-model="bgAmendForm.guaranteeReference">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="fidenti" class="control-label">Further Identification:</label>
+                                <input style="width:100%" ng-model="bgAmendForm.furtherIdentification" class="form-control" disabled="true" name="fidenti" id="fidenti"></input>
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="narrative" class="control-label">Narrative:</label>
+                                <input type="text" name="narrative" disabled="true" class="form-control" id="narrative" value="" style="width:100%" ng-model="bgAmendForm.narrative">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="Details" class="control-label">Details Of Guarantee</label>
+                                <input type="text" disabled="true" name="Details" class="form-control" id="Details" value="" style="width:100%" ng-model="bgAmendForm.details">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <label for="srInfo" class="control-label">Sender to Receiver Information:</label>
+                                <input type="text" disabled="true" name="srInfo" class="form-control" id="srInfo" value="" style="width:100%" ng-model="bgAmendForm.srInfo">
+
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <fieldset class="scheduler-border" style="float:left;">
+                        <legend class="scheduler-border">Beneficiary Details</legend>
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="iban" class="control-label">IBAN Number :</label>
+                                <input type="string" ng-model="bgAmendForm.ibanNumber" class="form-control" id="iban" name="iban" disabled="true" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiary" class="control-label">Beneficiary ID:</label>
+                                <input type="string" ng-model="bgAmendForm.beneficiary" class="form-control" id="beneficiary" name="beneficiary"  disabled="true" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiaryaddress" class="control-label">Beneficiary Address:</label>
+                                <input type="text" ng-model="bgAmendForm.beneficiaryAddress" class="form-control" id="beneficiaryaddress" name="beneficiaryaddress" disabled="true" required>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                             <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiarybank" class="control-label">Beneficiary Bank ID:</label>
+                                <input type="string" ng-model="bgAmendForm.beneficiarybank" class="form-control" id="beneficiarybank" name="beneficiarybank"  disabled="true" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiarybankaddress" class="control-label">Beneficiary Bank Address:</label>
+                                <input type="text" ng-model="bgAmendForm.beneficiarybankaddress" class="form-control" id="beneficiarybankaddress" name="beneficiarybankaddress"  disabled="true" required>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+
+                </div>
+                <div class="row">
+                    <hr>
+
+                </div>
+
+                <div>
+                    <button ng-click="amendBG()" type="button" class="btn btn-primary" ng-disabled = "bgcheck()? false : true"><span class="glyphicon glyphicon-ok"></span>Amend BG</button>
+                    <button ng-click="cancel()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="row">
+        <hr>
+
+    </div>
+
+</div>
+<!-- changes for bgrequest ends -->

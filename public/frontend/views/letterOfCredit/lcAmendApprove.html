@@ -1,0 +1,415 @@
+<nav class="navbar navbar-default " role="navigation" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#employeeHome" ng-click="setTab(0)" class="navbar-brand">
+                <img style="max-width: 110px;margin-top: -9px;border-color:Black;"
+                     src="./frontend/brand_logo.png"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+               <li class="active" ><a href="#employeeHome" ng-click="setTab(0)"><strong>Digital Trade Chain</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Letter Of Credit<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li class="divider"><strong></strong></li>
+                        <li><a href="#employeeHome">View Letter of Credit</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="display:inlineblock;"><a><strong>{{node}}</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <button ng-click="logout()" type="button" style=" background:none!important;border:none;padding:0!important;">Logout</button>
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+
+            <form name="loginform" novalidate>
+                <div>
+                    <fieldset class="scheduler-border" style="float:right;width:100%;">
+                        <legend class="scheduler-border">Amendment Details</legend>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendId" class="control-label">LC Number *:</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.LcAmendId" class="form-control" id="LcAmendId" name="LcAmendId" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendReqId" class="control-label">LC Amendment Req *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.LcAmendReqId" class="form-control" id="LcAmendReqId" name="LcAmendReqId" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendAmount" class="control-label">LC Amount *:</label>
+                                <input disabled = "true" type="number" ng-model="lcAmendApproveForm.LcAmendAmount" class="form-control" id="LcAmendAmount" name="LcAmendAmount" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendAdvisingBankRef" class="control-label">Advising Bank Ref *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.LcAmendAdvisingBankRef" class="form-control" id="LcAmendAdvisingBankRef" name="LcAmendAdvisingBankRef" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="AmendModeOfShipment" class="control-label">Mode of Shipment:</label>
+                                <!-- <input  type="string" ng-model="lcAmendForm.modeofshipment" class="form-control" id="modeofshipment" name="modeofshipment" required></input>-->
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.AmendModeOfShipment" class="form-control" id="AmendModeOfShipment" name="AmendModeOfShipment" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendExpiryDate" class="control-label">LC Expiry Date:</label>
+
+                                <input disabled = "true" type="date" ng-model="lcAmendApproveForm.LcAmendExpiryDate" class="form-control" id="LcAmendExpiryDate" name="LcAmendExpiryDate">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="LcAmendExpiryPlace" class="control-label">Place of Expiry :</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.LcAmendExpiryPlace" class="form-control" id="LcAmendExpiryPlace" name="LcAmendExpiryPlace" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="AmendmentDetails" class="control-label">Amendment Details :</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.AmendmentDetails" class="form-control" id="AmendmentDetails" name="AmendmentDetails" required>
+                            </div>
+
+
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="scheduler-border" style="float:left;">
+                        <legend class="scheduler-border">Applicant Details</legend>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lcId" class="control-label">LC Number *:</label>
+                                <input ng-model="lcAmendApproveForm.lcId" class="form-control" disabled = "true" id="lcId" name="lcId" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lctype" class="control-label">LC-Type *:</label>
+                                <input ng-model="lcAmendApproveForm.lctype" class="form-control" name="lctype" id="lctype" disabled = "true">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lccurrency" class="control-label">LC Currency *:</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.lccurrency" class="form-control" name="lccurrency" id="lccurrency">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lcamount" class="control-label">LC Amount *:</label>
+                                <input disabled = "true" type="number" ng-model="lcAmendApproveForm.lcamount" class="form-control" id="lcamount" name="lcamount" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicant" class="control-label">Applicant Customer*:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.applicant" class="form-control" name="applicant" id="applicant" disabled="true" required="">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicantaddress" class="control-label">Applicant Address:</label>
+                                <input type="text" disabled = "true" ng-model="lcAmendApproveForm.applicantaddress" class="form-control" id="applicantaddress" name="applicantaddress" required></input>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicantBank" class="control-label">Applicant Bank *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.applicantBank" class="form-control" id="applicantBank" name="applicantBank" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="applicantBankAddress" class="control-label"> Applicant Bank Address:</label>
+                                <input type="text" disabled = "true" ng-model="lcAmendApproveForm.applicantBankAddress" class="form-control" id="applicantBankAddress" name="applicantBankAddress" required></input>
+
+                            </div>
+                        </div>
+                    </fieldset>
+					
+					<fieldset class="scheduler-border" style="float:right;">
+                        <legend class="scheduler-border">Other Details</legend>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="incoTerms" class="control-label">Inco-Terms:</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.incoTerms" class="form-control" name="incoTerms" id="incoTerms"  required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="DocumentaryCredit" class="control-label">Reimburshing Bank :</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.DocumentaryCredit" class="form-control" id="DocumentaryCredit" name="DocumentaryCredit" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="SequenceTotal" class="control-label">Sequence of Total :</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.SequenceTotal" class="form-control" id="SequenceTotal" name="SequenceTotal" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="AvailableWith" class="control-label">Available With BY :</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.AvailableWith" class="form-control" id="AvailableWith" name="AvailableWith" required></input>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="MaxCreditAmount" class="control-label">Maximum Credit Amount :</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.MaxCreditAmount" class="form-control" name="MaxCreditAmount" id="MaxCreditAmount" required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="ConfirmationInstruction" class="control-label">Confirmation Instructions:</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.ConfirmationInstruction" class="form-control" name="ConfirmationInstruction" id="ConfirmationInstruction"  required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="DescOfGoods" class="control-label">Goods and Services:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.DescOfGoods" class="form-control" id="DescOfGoods" name="DescOfGoods" required></input>
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="TransportationTo" class="control-label">For Transportation To:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.TransportationTo" class="form-control" id="TransportationTo" name="TransportationTo" required>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="additionalConditions" class="control-label">Additional Conditions:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.additionalConditions" class="form-control" id="additionalConditions" name="additionalConditions" required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="Charges" class="control-label">Charges:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.Charges" class="form-control" id="Charges" name="Charges" required></input>
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="PeriodForPresentaion" class="control-label">Period for Presentation:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.PeriodForPresentaion" class="form-control" id="PeriodForPresentaion" name="PeriodForPresentaion" required></input>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="CreditNumber" class="control-label">Documentary Credit No:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.CreditNumber" class="form-control" id="CreditNumber" name="CreditNumber" required>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="SenderToReceiverInfo" class="control-label">Message to Receiver:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.SenderToReceiverInfo" class="form-control" id="SenderToReceiverInfo" name="SenderToReceiverInfo" required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="AdvisingThroughBank" class="control-label">Advising through Bank:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.AdvisingThroughBank" class="form-control" id="AdvisingThroughBank" name="AdvisingThroughBank" required></input>
+
+                            </div>
+
+
+
+                        </div>
+
+
+                    </fieldset>
+
+                   
+                    <fieldset class="scheduler-border" style="float:left;">
+                        <legend class="scheduler-border">Shipment Details</legend>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="sight_DraftsAt" class="control-label">Drafts At :</label>
+                                <input type="string"  ng-model="lcAmendApproveForm.DraftsAt_sight" class="form-control" id="sight_DraftsAt" name="DraftsAt" ng-change="test()"  disabled >
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="usance_DraftsAt" class="control-label">Drafts At :</label>
+                                <input type="string"  ng-model="lcAmendApproveForm.DraftsAt_usance" class="form-control" id="usance_DraftsAt" name="DraftsAt" disabled >
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="PortofLoading" class="control-label">Port Of Loading:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.PortofLoading" class="form-control" id="PortofLoading" name="PortofLoading" required>
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lcexpiryplace" class="control-label">Place of Expiry *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.lcexpiryplace" class="form-control" id="lcexpiryplace" name="lcexpiryplace" required>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="sight_shipmentperiod" class="control-label">Shipment Period :</label>
+                                <input type="number" ng-model="lcAmendApproveForm.shipmentperiod_sight" class="form-control" id="sight_shipmentperiod" name="presentationdays"  disabled >
+
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="usance_presentationdays" class="control-label">Shipment Period :</label>
+                                <input type="number" ng-model="lcAmendApproveForm.shipmentperiod_usance" class="form-control" id="usance_presentationdays" name="presentationdays"  disabled  >
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="shipmentdate" class="control-label">Latest Shipment Date:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.shipmentdate" class="form-control" id="shipmentdate" name="shipmentdate">
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="liabilitydate" class="control-label">Liability Reversal Date *:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.liabilitydate" class="form-control" id="liabilitydate" name="liabilitydate" required>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="sight_Percentage" class="control-label">Percentage:</label>
+                                <input type="number" ng-model="lcAmendApproveForm.Percentage_sight" class="form-control" id="sight_Percentage" name="Percentage"  disabled>
+                                <!--<input type="date" ng-model="lcForm.lcexpirydate" class="form-control" id="lcexpirydate" name="lcexpirydate" ng-change='checkLcExpiryDate(lcexpirydate)'>-->
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="usance_Percentage" class="control-label">Percentage:</label>
+                                <input type="number" ng-model="lcAmendApproveForm.Percentage_usance" class="form-control" id="usance_Percentage" name="Percentage"  disabled >
+                                <!--<input type="date" ng-model="lcForm.lcexpirydate" class="form-control" id="lcexpirydate" name="lcexpirydate" ng-change='checkLcExpiryDate(lcexpirydate)'>-->
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="lcexpirydate" class="control-label">LC Expiry Date:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.lcexpirydate" class="form-control" id="lcexpirydate" name="lcexpirydate">
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="modeofshipment" class="control-label">Mode of Shipment:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.modeofshipment" class="form-control" id="modeofshipment" name="modeofshipment" required></input>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="sight_lcamount" class="control-label">Amount <font color="red">*</font>:</label>
+                                <input type="number" ng-model="lcAmendApproveForm.lcamount_sight" class="form-control" id="sight_lcamount" name="lcamount" disabled>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="usance_lcamount" class="control-label">Amount <font color="red">*</font>:</label>
+                                <input type="number" ng-model="lcAmendApproveForm.lcamount_usance" class="form-control" id="usance_lcamount" name="lcamount"  disabled >
+
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="PartialShipments" class="control-label">Partial Shipments :</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.PartialShipments" class="form-control" name="PartialShipments" id="PartialShipments" required></input>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-lg-3">
+                                <label for="transhipment" class="control-label">Transhipment :</label>
+                                <input disabled = "true" ng-model="lcAmendApproveForm.transhipment" class="form-control" name="transhipment" id="transhipment" required></input>
+
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+                    
+					
+					 <fieldset class="scheduler-border" style="float:right;">
+                        <legend class="scheduler-border">Beneficiary Details</legend>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="iban" class="control-label">IBAN Number*:</label>
+                                <input ng-model="lcAmendApproveForm.iban" class="form-control" name="iban" id="iban" disabled = "true" required></input>
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiary" class="control-label">Beneficiary ID *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.beneficiary" class="form-control" id="beneficiary" name="beneficiary" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiaryaddress" class="control-label">Beneficiary Address:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.beneficiaryaddress" class="form-control" id="beneficiaryaddress" name="beneficiaryaddress" required></input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="lcissuedate" class="control-label">LC Issue Date *:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.lcissuedate" class="form-control" id="lcissuedate" name="lcissuedate" required>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiarybank" class="control-label">Beneficiary Bank ID *:</label>
+                                <input disabled = "true" type="string" ng-model="lcAmendApproveForm.beneficiarybank" class="form-control" id="beneficiarybank" name="beneficiarybank" required>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-lg-4">
+                                <label for="beneficiarybankaddress" class="control-label">Beneficiary Bank Address:</label>
+                                <input disabled = "true" type="text" ng-model="lcAmendApproveForm.beneficiarybankaddress" class="form-control" id="beneficiarybankaddress" name="beneficiarybankaddress" required></input>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+
+                    <fieldset class="scheduler-border" style="float:right;width:100%;">
+                        <legend class="scheduler-border">Documents Required</legend>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-lg-12">
+                                <textarea disabled="true" rows="3" type="text" style="width:100%;font-size: 11px;" ng-model="lcAmendApproveForm.DocRequired"  id="DocRequired" name="DocRequired" required></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+    <div>
+        <button ng-click="amendApproveLC()"  type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Approve Amended LC</button>
+        <button ng-click="cancel()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+        <!--<button ng-click="amendApproveLC()" ng-disabled=" (lcAmendApproveForm.DocRequired) ?  false : true" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Approve Amended LC</button>-->
+
+    </div>
+
+</div>

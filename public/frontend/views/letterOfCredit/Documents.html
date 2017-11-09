@@ -1,0 +1,176 @@
+<script src="./js/ng-pattern-restrict.js"></script>
+<nav class="navbar navbar-default " role="navigation" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+                <img style="max-width:110px; margin-top: -9px;border-color:Black"
+                     src="./frontend/brand_logo.png"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="active"  ><a><strong>Digital Trade Chain</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Letter Of Credit<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li class="divider"><strong></strong></li>
+                        <li><a href="#employeeHome">View Letter of Credit</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li style="display:inlineblock;"><a><strong>{{node}}</strong></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">{{username}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <button ng-click="logout()" type="button" style=" background:none!important;border:none;padding:0!important;">Logout</button>
+
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+<fieldset style="width:100%">
+
+
+    <div>
+        <br>
+        <div class="row">
+            <b style="">LC Number-</b> <i>{{LCRequestId}}</i></div>
+        <br>
+        <table st-table="rowCollection" class="table table-striped" id = "table_tingkat_jual1" style="width:100%">
+            <thead bgcolor="#C0C0C0">
+            <tr>
+                <th>SNo</th>
+                <th colspan="1">Bill Upload</th>
+                <th style="text-align:center;">LC Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-show="choices.length" ng-repeat="choice in choices track by $index">
+                <td>{{$index}}</td>
+                <td>
+                    <div  >
+                        <button ng-click="Downlod(choice)" style=" background:none!important; border:none;padding:0!important;  font-family:arial,sans-serif;  color:#069; text-decoration:"><img src="./frontend/document.jpg" alt="doc-">{{choice}}</button>
+                    </div>
+
+                </td>
+                <td style="text-align:center"><div  style="width: 100%;">
+                  <!-- verification and bill lodging  should be done from  employee bank 10005 -->
+                  <button ng-disabled="node != otherBank ?  false : true" ng-click="verify()">Verify</button>
+                    <!-- <button ng-click="billInput(1)">Bill Input</button> -->
+                      <button ng-disabled="node != otherBank ?  false : true"  ng-click="billInput(1)">Bill Input</button>
+
+                    <!--<button type="button" id="idAddButton3"    ng-click="verify()">Verify</button>-->
+                </div></td>
+            </tr>
+            <!-- bill upload should be done from advisingBank -->
+            <tr  ng-if= "thisNode == getData.lcorder.advisingBankID">
+                <td><img src="./frontend/upload.png" alt="upload"></td>
+                <td>
+
+                        <div>
+                            <input type="file" upload-files />
+                            <br />
+                        </div>
+
+                </td>
+                <td style="text-align:center"><div style="width: 100%;">
+                    <button ng-click="save()">Upload</button>
+                </div></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <form name="billform" novalidate  ng-show="showTheForm1">
+
+            <table class="table table-striped"  border="1">
+                <tr>
+                  <th>LC Number:{{LCRequestId}}</th>
+                    <th>Bill Amount:</th>
+                  </tr>
+
+            </table>
+
+
+            <fieldset class="scheduler-border" style="float:left;width:100%;height:80px;font-size:smaller;">
+                <legend class="scheduler-border">Bill Input:</legend>
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <label for="bill_number" class="control-label">Bill Number:</label>
+                        <input type="text"   ng-model="billform.billNumb" class="form-control" id="bill_number"   disabled required="required" >
+
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <label for="bill_amount" class="control-label">Bill Amount:<i>(outstanding amount:{{lastOutStandingAmount}})</i></label>
+                        <!--<input type="text" to-number ng-model="billform.billamount" class="form-control" id="bill_amount" name="bill_amount" ng-change="amountChange()">-->
+                        <input type="number" to-number ng-pattern-restrict="^$|^[A-Za-z0-9]+" ng-model="billform.billamount" class="form-control" id="bill_amount" name="bill_amount" ng-change="amountChange()" >
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <label for="bill_date" class="control-label">Bill Date :</label>
+                        <input type="date" ng-model="billform.billdate" class="form-control" id="bill_date" name="bill_date" >
+
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-lg-3">
+                        <label for="currency_type" class="control-label">Currency Type :<font color="red">*</font>:</label>
+                        <select ng-model="billform.billcurrency" class="form-control" name="billcurrency" id="currency_type" required>
+                            <option ng-repeat="billcurrency in billcurrency" value="{{billcurrency}}">{{billcurrency}}</option>
+                        </select>
+                    </div>
+
+
+                </div>
+            </fieldset>
+
+            <button ng-click="create()" ng-disabled="disableBillButton()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+            <button ng-click="cancel()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+        </form>
+        <br>
+        <br>
+        <div class="row" ng-show="bills.length">
+            <table st-table="rowCollection" class="table table-striped" id = "table_tingkat_jual">
+                <thead bgcolor="#C0C0C0">
+                <tr>
+                    <th>Bill Number</th>
+                    <th>Bill Date</th>
+                    <th>Currency Type</th>
+                    <th>Bill Amount</th>
+                    <th>Outstanding Amount</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="bills in bills">
+                <tr>
+                    <td>{{bills.billNo}}</td>
+                    <td>{{bills.billDate}}</td>
+                    <td>{{bills.currencyType}}</td>
+                    <td>{{bills.billAmount}}</td>
+                    <td>{{bills.lcOutstandingAmt}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+    </div>
+
+</fieldset>
+        </div></div></div>
