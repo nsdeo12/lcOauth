@@ -114,6 +114,12 @@ app.config(
                            templateUrl:   './frontend/views/letterOfCredit/openLCView.html',
                            controller:   'openLCViewController'
             })
+            .when('/api/wallets/', {           
+                url:   "/api/wallets/",
+                           templateUrl:   './frontend/views/composer/wallet.html',
+                           controller:   'walletController'
+            })
+            
             .otherwise({
                 redirectTo: '/'
             });

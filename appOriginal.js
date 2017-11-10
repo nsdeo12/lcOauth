@@ -38,7 +38,63 @@ var xmltojson = require("xmltojson");
 var xmlToJSON = require('xmlToJSON');
 var dateFormat = require('dateformat');
 
+var passport = require('passport');
+var methodOverride = require('method-override');
+var GitHubStrategy = require('passport-github2').Strategy;
+var partials = require('express-partials');
 
+
+var GITHUB_CLIENT_ID = "8f5d210470ef9eef6c82";
+var GITHUB_CLIENT_SECRET = "a7732d9ccfe060860925644cd497800aa5715e63";
+
+
+// Passport session setup.
+//   To support persistent login sessions, Passport needs to be able to
+//   serialize users into and deserialize users out of the session.  Typically,
+//   this will be as simple as storing the user ID when serializing, and finding
+//   the user by ID when deserializing.  However, since this example does not
+//   have a database of user records, the complete GitHub profile is serialized
+//   and deserialized.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+  console.log("user details",user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+  console.log("inside deserializeUser",obj);
+});
+
+
+// Use the GitHubStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and GitHub
+//   profile), and invoke a callback with a user object.
+passport.use(new GitHubStrategy({
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+    //callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    // callbackURL:"https://www.google.co.in/?gfe_rd=cr&dcr=0&ei=LpUBWoWXJ-nI8Aet8434Cg"
+    //callbackURL:"http://localhost:3000/api/wallets"    
+    callbackURL:"http://localhost:3000/auth/github/callback",
+    successURL:"http://localhost:3300"
+    //callbackURL:"http://localhost:3300/login"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log("Access token",accessToken);
+    console.log("refreshToken ",refreshToken);
+
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's GitHub profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the GitHub account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
 var transporter = nodemailer.createTransport(
 	smtpPool({
 		host: 'localhost',
@@ -51,6 +107,11 @@ var transporter = nodemailer.createTransport(
 var alfabank = express();
 alfabank.use(cors());
 
+
+//passport related starts
+alfabank.use(passport.initialize());
+alfabank.use(passport.session());
+//passport related ends
 
 
 var inf;
@@ -308,6 +369,46 @@ function cb_deployed(e) {
 
 
 //});  */
+
+//passport related get methods starts
+alfabank.get('/auth/github',
+passport.authenticate('github', { scope: [ 'user:email' ] }),
+function(req, res){
+  // The request will be redirected to GitHub for authentication, so this
+  // function will not be called.
+});
+
+// GET /auth/github/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function will be called,
+//   which, in this example, will redirect the user to the home page.
+alfabank.get('/auth/github/callback', 
+passport.authenticate('github', { failureRedirect: '/login' }),
+function(req, res) {
+  // http.get({
+  //   hostname: 'localhost',
+  //   port: 3000,
+  //   path: '/api/wallets, {withCredentials: true }'     
+  // }, (res) => {
+  //   console.log("response",res);
+  //   // Do stuff with response
+  // });
+ // res.redirect('http://localhost:3300/login');
+  res.redirect('http://localhost:3000');
+});
+
+alfabank.get('/logout', function(req, res){
+req.logout();
+
+});
+alfabank.get('/api/wallets/', function(req, res){
+	console.log("response",res);
+	res.send()
+	
+	});
+//passport related get method ends
+
 alfabank.post('/lc-open', function (req, res) {
 
 
@@ -2479,7 +2580,7 @@ finalData = test['S:Envelope']['S:Body'][0]['ns3:AccountdetailsResponse'][0].TCI
 
 
 
-var alfa = alfabank.listen(3000, function () {
+var alfa = alfabank.listen(3030, function () {
 
 
 });
