@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var request=require('request');
+var request = require('request');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var bodyParser = require('body-parser');
@@ -55,14 +55,14 @@ var GITHUB_CLIENT_SECRET = "a7732d9ccfe060860925644cd497800aa5715e63";
 //   the user by ID when deserializing.  However, since this example does not
 //   have a database of user records, the complete GitHub profile is serialized
 //   and deserialized.
-passport.serializeUser(function(user, done) {
-  done(null, user);
-  console.log("user details",user);
+passport.serializeUser(function (user, done) {
+	done(null, user);
+	console.log("user details", user);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-  console.log("inside deserializeUser",obj);
+passport.deserializeUser(function (obj, done) {
+	done(null, obj);
+	console.log("inside deserializeUser", obj);
 });
 
 
@@ -71,29 +71,29 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, an accessToken, refreshToken, and GitHub
 //   profile), and invoke a callback with a user object.
 passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-    //callbackURL: "http://127.0.0.1:3000/auth/github/callback"
-    // callbackURL:"https://www.google.co.in/?gfe_rd=cr&dcr=0&ei=LpUBWoWXJ-nI8Aet8434Cg"
-    //callbackURL:"http://localhost:3000/api/wallets"    
-    callbackURL:"http://localhost:3000/auth/github/callback",
-    successURL:"http://localhost:3300"
-    //callbackURL:"http://localhost:3300/login"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    console.log("Access token",accessToken);
-    console.log("refreshToken ",refreshToken);
+		clientID: GITHUB_CLIENT_ID,
+		clientSecret: GITHUB_CLIENT_SECRET,
+		//callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+		// callbackURL:"https://www.google.co.in/?gfe_rd=cr&dcr=0&ei=LpUBWoWXJ-nI8Aet8434Cg"
+		//callbackURL:"http://localhost:3000/api/wallets"    
+		callbackURL: "http://localhost:3000/auth/github/callback",
+		successURL: "http://localhost:3300"
+		//callbackURL:"http://localhost:3300/login"
+	},
+	function (accessToken, refreshToken, profile, done) {
+		console.log("Access token", accessToken);
+		console.log("refreshToken ", refreshToken);
 
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // To keep the example simple, the user's GitHub profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the GitHub account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-  }
+		// asynchronous verification, for effect...
+		process.nextTick(function () {
+
+			// To keep the example simple, the user's GitHub profile is returned to
+			// represent the logged-in user.  In a typical application, you would want
+			// to associate the GitHub account with a user record in your database,
+			// and return that user instead.
+			return done(null, profile);
+		});
+	}
 ));
 var transporter = nodemailer.createTransport(
 	smtpPool({
@@ -372,41 +372,50 @@ function cb_deployed(e) {
 
 //passport related get methods starts
 alfabank.get('/auth/github',
-passport.authenticate('github', { scope: [ 'user:email' ] }),
-function(req, res){
-  // The request will be redirected to GitHub for authentication, so this
-  // function will not be called.
-});
+	passport.authenticate('github', {
+		scope: ['user:email']
+	}),
+	function (req, res) {
+		// The request will be redirected to GitHub for authentication, so this
+		// function will not be called.
+	});
 
 // GET /auth/github/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function will be called,
 //   which, in this example, will redirect the user to the home page.
-alfabank.get('/auth/github/callback', 
-passport.authenticate('github', { failureRedirect: '/login' }),
-function(req, res) {
-  // http.get({
-  //   hostname: 'localhost',
-  //   port: 3000,
-  //   path: '/api/wallets, {withCredentials: true }'     
-  // }, (res) => {
-  //   console.log("response",res);
-  //   // Do stuff with response
-  // });
- // res.redirect('http://localhost:3300/login');
-  res.redirect('http://localhost:3000');
-});
-
-alfabank.get('/logout', function(req, res){
-req.logout();
-
-});
-alfabank.get('/api/wallets/', function(req, res){
-	console.log("response",res);
-	res.send()
-	
+alfabank.get('/auth/github/callback',
+	passport.authenticate('github', {
+		failureRedirect: '/login'
+	}),
+	function (req, res) {
+		// http.get({
+		//   hostname: 'localhost',
+		//   port: 3000,
+		//   path: '/api/wallets, {withCredentials: true }'     
+		// }, (res) => {
+		//   console.log("response",res);
+		//   // Do stuff with response
+		// });
+		// res.redirect('http://localhost:3300/login');
+		res.redirect('http://localhost:3000');
 	});
+
+alfabank.get('/logout', function (req, res) {
+	req.logout();
+
+});
+alfabank.get('/api/wallets/', function (req, res) {
+	console.log("response", res);
+	res.send()
+
+});
+alfabank.get('/auth/logout/', function (req, res) {
+	console.log("response", res);
+	res.send()
+
+});
 //passport related get method ends
 
 alfabank.post('/lc-open', function (req, res) {
@@ -422,33 +431,33 @@ alfabank.post('/lc-open', function (req, res) {
 	});
 
 
-	
-	
-	
-	var reqId =  loc.lcRequestNumber;
-	
+
+
+
+	var reqId = loc.lcRequestNumber;
+
 	var applicantID = loc.applicantID_t1;
 	var beneficiaryID = loc.beneficiaryID_t2;
-	var lcCurrency = loc. lCCurrency_t1;
+	var lcCurrency = loc.lCCurrency_t1;
 	var lcAmount = loc.lCAmount_t1;
 	var lcExpirydate = loc.lCExpiryDate_t1;
 
-var date = require('date-and-time');
+	var date = require('date-and-time');
 
-var moment = require('moment');
+	var moment = require('moment');
 
-var date= '21/01/2015';
-var d=new Date(date.split("/").reverse().join("-"));
-var dd=d.getDate();
-var mm=d.getMonth()+1;
-var yy=d.getFullYear();
-var newdate=yy+"/"+mm+"/"+dd;
-var dateFormat = require('dateformat');
- var newdate = lcExpirydate.split('/');
- 
- var newDateString=newdate[2]+newdate[0]+newdate[1];
- console.log("newDateString",newDateString);
-  
+	var date = '21/01/2015';
+	var d = new Date(date.split("/").reverse().join("-"));
+	var dd = d.getDate();
+	var mm = d.getMonth() + 1;
+	var yy = d.getFullYear();
+	var newdate = yy + "/" + mm + "/" + dd;
+	var dateFormat = require('dateformat');
+	var newdate = lcExpirydate.split('/');
+
+	var newDateString = newdate[2] + newdate[0] + newdate[1];
+	console.log("newDateString", newDateString);
+
 	var lcExpiryplace = loc.lCExpiryPlace_t1;
 	var advisingBankId = loc.advisingBankID_t2;
 	var availableBankcust = loc.availableWithBankID_t2;
@@ -456,9 +465,9 @@ var dateFormat = require('dateformat');
 	//var Operation = '';
 	var IssueDate = loc.lCIssueDate_t1;
 	var issuedate = IssueDate.split('/');
-	var issuedateString = newdate[2]+newdate[0]+newdate[1];
-	console.log("Issue date conversion",issuedateString);
-	
+	var issuedateString = newdate[2] + newdate[0] + newdate[1];
+	console.log("Issue date conversion", issuedateString);
+
 	var shipmentDate = loc.shipmentDate_t1;
 	var liablilityReversaldate = loc.liablityReversalDate_t1;
 	var limitReference = loc.limitReference_t1;
@@ -467,9 +476,9 @@ var dateFormat = require('dateformat');
 	var accountOfiicer = loc.accountOfficer_t1;
 	var chargerFrom = loc.chargesFrom_t3;
 	var limitProvision = loc.limitwithProvision_t6;
-	console.log("Request Id ",reqId,applicantID,beneficiaryID,lcCurrency,lcAmount,lcExpirydate,lcExpiryplace,advisingBankId,availableBankcust);
-	
-	
+	console.log("Request Id ", reqId, applicantID, beneficiaryID, lcCurrency, lcAmount, lcExpirydate, lcExpiryplace, advisingBankId, availableBankcust);
+
+
 
 	/*var fromId = "admin@" + loc.applicantBank.toLowerCase() + ".com";
 	var fromId = "admin@" + loc.applicantBank+ ".com";
@@ -486,91 +495,93 @@ var dateFormat = require('dateformat');
 
 	sendEmail(fromId, to, stat, msg);*/
 
-	
-	
-
-//rsj = require('rsj');
- var requestHeaders = {
-  'cache-control': 'no-cache',
-  //'soapaction': 'addRoom',
-  'content-type': undefined
-};
-var test,finalData;
-var requestBody ='<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tes="http://temenos.com/TestLC" xmlns:let="http://temenos.com/LETTEROFCREDITIMPSIGHTWEB"><soapenv:Header/> <soapenv:Body><tes:CreateSightPaymentImportLC><WebRequestCommon><company>GB0010001</company><password>123123</password><userName>INPUTT</userName></WebRequestCommon><OfsFunction><activityName/><assignReason/><dueDate/><extProcess/><extProcessID/><gtsControl/><messageId/><noOfAuth/><owner/><replace/><startDate/><user/></OfsFunction><LETTEROFCREDITIMPSIGHTWEBType   id=""><let:LCTYPE>'+lcType+'</let:LCTYPE><let:APPLICANTCUSTNO>'+applicantID+'</let:APPLICANTCUSTNO><let:gAPPLICANT g="'+applicantID+'"/><let:BENEFICIARYCUSTNO>'+beneficiaryID+'</let:BENEFICIARYCUSTNO><let:gBENEFICIARY g="'+beneficiaryID+'"/><let:ADVISINGBKCUSTNO>'+advisingBankId+'</let:ADVISINGBKCUSTNO><let:gADVISINGBK g="'+advisingBankId+'"/><let:LCCURRENCY>'+lcCurrency+'</let:LCCURRENCY><let:LCAMOUNT>'+lcAmount+'</let:LCAMOUNT><let:EXPIRYDATE>'+newDateString+'</let:EXPIRYDATE><let:EXPIRYPLACE>'+lcExpiryplace+'</let:EXPIRYPLACE><let:AVAILWITHCUSTNO>"'+availableBankcust+'"</let:AVAILWITHCUSTNO><let:gAVAILABLEWITH g="'+availableBankcust+'"/><let:gOTHEROFFICER g="100"/><let:ADVICEEXPIRYDATE>'+newDateString+'</let:ADVICEEXPIRYDATE></LETTEROFCREDITIMPSIGHTWEBType  ></tes:CreateSightPaymentImportLC></soapenv:Body></soapenv:Envelope>'
-console.log("requestBody",requestBody);
-
-var requestOptions = {
-  'method': 'POST',
-  'url': 'http://52.18.174.96:8080/TestLC/services',
-  'qs': { 'wsdl': ''},
-  'headers': requestHeaders,
-  'body': requestBody,
-  'timeout': 5000
-};
-
-request(requestOptions, function (error, response, body) {
-	
-var parseString = require('xml2js').parseString;
-var xml = body;
-parseString(xml, function (err, result) {
-    //console.log("result",result);
-	var test1 = JSON.stringify(result);
-	test = JSON.parse(test1);
-	console.log("result for t24  ",test);
-	console.log("reslut for t24-----",test1);
-
-   finalData = test['S:Envelope']['S:Body'][0]['ns4:CreateSightPaymentImportLCResponse'][0].LETTEROFCREDITType;   
-//console.log("Final Data",finalData[0].$.id);   
-const TransactionID = finalData[0].$.id;
-console.log("Final Data",TransactionID); 
-loc.TransactionId = TransactionID;
-//chaincode.invoke.UpdateTransactionId([ID, TransactionID]);
-var input = JSON.stringify(loc); 
-console.log("input after TransactionID is added"+ input);
 
 
 
-	chaincode.invoke.OpenLetterOfCredit([ID, input]);
-   
-   var response = res.end(ID + " has been Opened successfully and the T24 transaction address is " +TransactionID);
-   return response;
-    
-  }); 
-})
- 
-}); 
+	//rsj = require('rsj');
+	var requestHeaders = {
+		'cache-control': 'no-cache',
+		//'soapaction': 'addRoom',
+		'content-type': undefined
+	};
+	var test, finalData;
+	var requestBody = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tes="http://temenos.com/TestLC" xmlns:let="http://temenos.com/LETTEROFCREDITIMPSIGHTWEB"><soapenv:Header/> <soapenv:Body><tes:CreateSightPaymentImportLC><WebRequestCommon><company>GB0010001</company><password>123123</password><userName>INPUTT</userName></WebRequestCommon><OfsFunction><activityName/><assignReason/><dueDate/><extProcess/><extProcessID/><gtsControl/><messageId/><noOfAuth/><owner/><replace/><startDate/><user/></OfsFunction><LETTEROFCREDITIMPSIGHTWEBType   id=""><let:LCTYPE>' + lcType + '</let:LCTYPE><let:APPLICANTCUSTNO>' + applicantID + '</let:APPLICANTCUSTNO><let:gAPPLICANT g="' + applicantID + '"/><let:BENEFICIARYCUSTNO>' + beneficiaryID + '</let:BENEFICIARYCUSTNO><let:gBENEFICIARY g="' + beneficiaryID + '"/><let:ADVISINGBKCUSTNO>' + advisingBankId + '</let:ADVISINGBKCUSTNO><let:gADVISINGBK g="' + advisingBankId + '"/><let:LCCURRENCY>' + lcCurrency + '</let:LCCURRENCY><let:LCAMOUNT>' + lcAmount + '</let:LCAMOUNT><let:EXPIRYDATE>' + newDateString + '</let:EXPIRYDATE><let:EXPIRYPLACE>' + lcExpiryplace + '</let:EXPIRYPLACE><let:AVAILWITHCUSTNO>"' + availableBankcust + '"</let:AVAILWITHCUSTNO><let:gAVAILABLEWITH g="' + availableBankcust + '"/><let:gOTHEROFFICER g="100"/><let:ADVICEEXPIRYDATE>' + newDateString + '</let:ADVICEEXPIRYDATE></LETTEROFCREDITIMPSIGHTWEBType  ></tes:CreateSightPaymentImportLC></soapenv:Body></soapenv:Envelope>'
+	console.log("requestBody", requestBody);
+
+	var requestOptions = {
+		'method': 'POST',
+		'url': 'http://52.18.174.96:8080/TestLC/services',
+		'qs': {
+			'wsdl': ''
+		},
+		'headers': requestHeaders,
+		'body': requestBody,
+		'timeout': 5000
+	};
+
+	request(requestOptions, function (error, response, body) {
+
+		var parseString = require('xml2js').parseString;
+		var xml = body;
+		parseString(xml, function (err, result) {
+			//console.log("result",result);
+			var test1 = JSON.stringify(result);
+			test = JSON.parse(test1);
+			console.log("result for t24  ", test);
+			console.log("reslut for t24-----", test1);
+
+			finalData = test['S:Envelope']['S:Body'][0]['ns4:CreateSightPaymentImportLCResponse'][0].LETTEROFCREDITType;
+			//console.log("Final Data",finalData[0].$.id);   
+			const TransactionID = finalData[0].$.id;
+			console.log("Final Data", TransactionID);
+			loc.TransactionId = TransactionID;
+			//chaincode.invoke.UpdateTransactionId([ID, TransactionID]);
+			var input = JSON.stringify(loc);
+			console.log("input after TransactionID is added" + input);
+
+
+
+			chaincode.invoke.OpenLetterOfCredit([ID, input]);
+
+			var response = res.end(ID + " has been Opened successfully and the T24 transaction address is " + TransactionID);
+			return response;
+
+		});
+	})
+
+});
 
 alfabank.post('/lc-validate', function (req, res) {
-		var loc = req.body;
-		console.log("TEXT FROM UI", loc);
-		var input = JSON.stringify(loc);
-		chaincode.query.Validation([input], function (err, resp) {		
-			if (resp != null) {
-					console.log("resp ===>",resp);
-				var sTemp = "";
-				var aObjs = [];
-				var stop = 0;
-				for (var i = 0; i < resp.length; ++i) {
-					sTemp += resp[i];
-	
-					if (resp[i] == "{") {
-						stop++;
-					}
-					if (resp[i] == "}") {
-						stop--;
-					}
-					if ((resp[i] == "}") && (stop == 0)) {
-						aObjs.push(JSON.parse(sTemp));
-						sTemp = "";
-					}
-				}				
-				res.json(aObjs);
+	var loc = req.body;
+	console.log("TEXT FROM UI", loc);
+	var input = JSON.stringify(loc);
+	chaincode.query.Validation([input], function (err, resp) {
+		if (resp != null) {
+			console.log("resp ===>", resp);
+			var sTemp = "";
+			var aObjs = [];
+			var stop = 0;
+			for (var i = 0; i < resp.length; ++i) {
+				sTemp += resp[i];
+
+				if (resp[i] == "{") {
+					stop++;
+				}
+				if (resp[i] == "}") {
+					stop--;
+				}
+				if ((resp[i] == "}") && (stop == 0)) {
+					aObjs.push(JSON.parse(sTemp));
+					sTemp = "";
+				}
 			}
-		});	
-	
-		return res;	
+			res.json(aObjs);
+		}
 	});
-	
+
+	return res;
+});
+
 alfabank.post('/bg-open', function (req, res) {
 
 	var bog = req.body;
@@ -1615,7 +1626,7 @@ alfabank.get('/employee-bg-orders/:BGApprovalId', function (req, res) {
 alfabank.post('/lcreq', function (postreqang, postresang) {
 	var inf = postreqang.body;
 	var image = inf.documents;
-    var bitmap = new Buffer(image, 'base64');
+	var bitmap = new Buffer(image, 'base64');
 	inf.documents = bitmap;
 	console.log("TEXT FROM UI", inf);
 
@@ -1820,7 +1831,7 @@ alfabank.post('/lcreq', function (postreqang, postresang) {
 		console.log('Last record insert id:', res.lcid);
 
 		var response = postresang.end(uidata.lcReqId+" has been Requested successfully "); */
-		console.log("query string",inf);
+		console.log("query string", inf);
 		var response = postresang.end(uidata.lcRequestNumber + " has been Requested successfully ");
 		return response;
 
@@ -1893,7 +1904,7 @@ alfabank.post('/bg-req', function (postreqang, postresang) {
 
 alfabank.get('/lcreq', function (req, res) {
 	var queryString = "SELECT * FROM letterofcredit where status='requested' ";
-	console.log("all request",queryString);
+	console.log("all request", queryString);
 
 	applicantbank.getConnection(function (err, connection) {
 		if (err) {
@@ -1916,7 +1927,7 @@ alfabank.get('/lcreq', function (req, res) {
 
 			} else {
 				res.send(rows);
-				console.log("requests---->",rows);
+				console.log("requests---->", rows);
 				return
 			}
 
@@ -2046,7 +2057,7 @@ alfabank.get('/bg-req/:BGReqNumb', function (req, res) {
 
 alfabank.get('/get-customer-lc/:name', function (req, res) {
 	var param = req.params.name;
-	console.log("customer based records---->",param);
+	console.log("customer based records---->", param);
 
 	var queryString = "select * from letterofcredit where status='requested' and Applicant=?";
 	console.log(queryString);
@@ -2071,7 +2082,7 @@ alfabank.get('/get-customer-lc/:name', function (req, res) {
 				return;
 
 			} else {
-				console.log("rows from request",rows);
+				console.log("rows from request", rows);
 				res.send(rows);
 				return
 			}
@@ -2341,30 +2352,30 @@ alfabank.post('/lodge-bill/:lcId', function (req, res) {
 
 alfabank.post('/image-store', function (req, res) {
 	var imgDetail = req.body;
-    console.log("imgDetail FROM UI", imgDetail);
-	console.log("imgDetail.docID",imgDetail.docID);
-	
-    var imgVal = JSON.stringify(imgDetail); 
+	console.log("imgDetail FROM UI", imgDetail);
+	console.log("imgDetail.docID", imgDetail.docID);
+
+	var imgVal = JSON.stringify(imgDetail);
 	chaincode.invoke.storeImageDetial([imgDetail.docID, imgVal]);
-   
-   var response = res.end("Image uploaded successfully");
-   return response;
-    
-  //}); 
-//})
- 
-}); 
+
+	var response = res.end("Image uploaded successfully");
+	return response;
+
+	//}); 
+	//})
+
+});
 
 alfabank.get('/api/GetImageDetialById/:id', function (req, res) {
 
 	idValue = req.params.id
-	console.log("idValue",idValue);
+	console.log("idValue", idValue);
 	chaincode.query.GetImageDetialById([idValue], function (err, resp) {
 
 		if (resp != null) {
-			console.log("resp ===>",resp);
+			console.log("resp ===>", resp);
 			var parseval = JSON.parse(resp);
-			console.log("parseval ==>",parseval);
+			console.log("parseval ==>", parseval);
 			var info = {
 				"DATA": parseval
 			};
@@ -2379,14 +2390,14 @@ alfabank.get('/api/GetImageDetialById/:id', function (req, res) {
 
 
 alfabank.post('/documentTableUpdate', function (postreqang, postresang) {
-	var uidata = postreqang.body;	
-	
-	
+	var uidata = postreqang.body;
+
+
 	var image = uidata.IMAGE;
-var bitmap = new Buffer(image, 'base64');
+	var bitmap = new Buffer(image, 'base64');
 	//fs.writeFileSync("images/example.jpg", bitmap);
 	//console.log("bitmap",bitmap);
-	
+
 	var imageRecord = [{
 		"ID": uidata.ID,
 		//"IMAGE": fs.readFileSync(uidata.IMAGE),
@@ -2395,9 +2406,9 @@ var bitmap = new Buffer(image, 'base64');
 		"content": uidata.content,
 		"docType": uidata.docType,
 	}];
-	
-	console.log("imageRecord",imageRecord);
-	
+
+	console.log("imageRecord", imageRecord);
+
 
 	applicantbank.query('INSERT INTO documents SET ?', imageRecord, function (err, res) {
 		if (err) throw err;
@@ -2435,9 +2446,9 @@ alfabank.get('/documentTableQuery/:ID', function (req, res) {
 
 			} else {
 				//console.log("rows[0].IMAGE",rows[0].IMAGE);
-				
+
 				rows[0].IMAGE = (rows[0].IMAGE).toString('base64');
-					console.log("(rows[0].IMAGE).toString('base64')", (rows[0].IMAGE).toString('base64'));
+				console.log("(rows[0].IMAGE).toString('base64')", (rows[0].IMAGE).toString('base64'));
 				//fs.writeFileSync("images/example_download.jpg",rows[0].IMAGE);
 				res.send(rows);
 				return
@@ -2520,56 +2531,58 @@ alfabank.post('/email-for-amend', function (postreqang, postresang) {
 
 //tws service///
 
-alfabank.post('/getAccountDetails/:customerId', function(req, res) {
-                
-//chandana logic
-var cusId = req.params.customerId;
-var requestHeaders = {
-  'cache-control': 'no-cache',
-  //'soapaction': 'addRoom',
-  'content-type': undefined
-};
-var data,test,finalData;
-var requestBody ='<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:read="http://temenos.com/ReadCust"><soapenv:Header/><soapenv:Body><read:Accountdetails><!--Optional:--><WebRequestCommon><!--Optional:--><company>GB0010001</company><password>123123</password><userName>INPUTT</userName></WebRequestCommon><!--Optional:--><TCIBACCTDETAILSType><!--Zero or more repetitions:--><enquiryInputCollection><!--Optional:--><columnName>CUSTOMER</columnName><!--Optional:--><criteriaValue>'+cusId+'</criteriaValue><!--Optional:--><operand>EQ</operand></enquiryInputCollection></TCIBACCTDETAILSType></read:Accountdetails></soapenv:Body></soapenv:Envelope>'
-  
+alfabank.post('/getAccountDetails/:customerId', function (req, res) {
 
-var requestOptions = {
-  'method': 'POST',
-  'url': 'http://52.18.174.96:8080/ReadCust/services',
-  'qs': { 'wsdl': ''},
-  'headers': requestHeaders,
-  'body': requestBody,
-  'timeout': 5000
-};
+	//chandana logic
+	var cusId = req.params.customerId;
+	var requestHeaders = {
+		'cache-control': 'no-cache',
+		//'soapaction': 'addRoom',
+		'content-type': undefined
+	};
+	var data, test, finalData;
+	var requestBody = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:read="http://temenos.com/ReadCust"><soapenv:Header/><soapenv:Body><read:Accountdetails><!--Optional:--><WebRequestCommon><!--Optional:--><company>GB0010001</company><password>123123</password><userName>INPUTT</userName></WebRequestCommon><!--Optional:--><TCIBACCTDETAILSType><!--Zero or more repetitions:--><enquiryInputCollection><!--Optional:--><columnName>CUSTOMER</columnName><!--Optional:--><criteriaValue>' + cusId + '</criteriaValue><!--Optional:--><operand>EQ</operand></enquiryInputCollection></TCIBACCTDETAILSType></read:Accountdetails></soapenv:Body></soapenv:Envelope>'
 
 
-request(requestOptions, function (error, response, body) {
-               //console.log("Request",requestOptions);
-                //console.log("Response",response.body);
-                                                   
-                                                   var parseString = require('xml2js').parseString;
-var xml = body;
-parseString(xml, function (err, result) {
-    			console.log("result==========>",result);
-                //var data1 = JSON.stringify(result);
-                data = JSON.stringify(result);
-                console.log("result",JSON.stringify(result));
-                test = JSON.parse(data);
-                console.log("test",test);
-//console.log("test ================ >>>>>>>>>>>",test['S:Envelope']['S:Body'][0]['ns3:AccountdetailsResponse'][0].TCIBACCTDETAILSType[0]['ns2:gTCIBACCTDETAILSDetailType'][0]['ns2:mTCIBACCTDETAILSDetailType']);
-                
-finalData = test['S:Envelope']['S:Body'][0]['ns3:AccountdetailsResponse'][0].TCIBACCTDETAILSType[0]['ns2:gTCIBACCTDETAILSDetailType'][0]['ns2:mTCIBACCTDETAILSDetailType'];                
-                
-}); 
-  
-   res.send(finalData); 
-   //return data;
-})
+	var requestOptions = {
+		'method': 'POST',
+		'url': 'http://52.18.174.96:8080/ReadCust/services',
+		'qs': {
+			'wsdl': ''
+		},
+		'headers': requestHeaders,
+		'body': requestBody,
+		'timeout': 5000
+	};
 
-//console.log("res",res);
 
-//end
-                
+	request(requestOptions, function (error, response, body) {
+		//console.log("Request",requestOptions);
+		//console.log("Response",response.body);
+
+		var parseString = require('xml2js').parseString;
+		var xml = body;
+		parseString(xml, function (err, result) {
+			console.log("result==========>", result);
+			//var data1 = JSON.stringify(result);
+			data = JSON.stringify(result);
+			console.log("result", JSON.stringify(result));
+			test = JSON.parse(data);
+			console.log("test", test);
+			//console.log("test ================ >>>>>>>>>>>",test['S:Envelope']['S:Body'][0]['ns3:AccountdetailsResponse'][0].TCIBACCTDETAILSType[0]['ns2:gTCIBACCTDETAILSDetailType'][0]['ns2:mTCIBACCTDETAILSDetailType']);
+
+			finalData = test['S:Envelope']['S:Body'][0]['ns3:AccountdetailsResponse'][0].TCIBACCTDETAILSType[0]['ns2:gTCIBACCTDETAILSDetailType'][0]['ns2:mTCIBACCTDETAILSDetailType'];
+
+		});
+
+		res.send(finalData);
+		//return data;
+	})
+
+	//console.log("res",res);
+
+	//end
+
 });
 
 ////end/////

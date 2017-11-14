@@ -17,12 +17,14 @@
     "debug": "0.7.4",
     "express": "4.0.0",
     "express-fileupload": "^0.2.0",
+    "express-partials": "^0.3.0",
     "express-session": "1.2.1",
     "fs": "0.0.1-security",
     "ibm-blockchain-js": "1.3.*",
     "jade": "1.3.1",
     "js2xmlparser": "^3.0.0",
     "maildev": "^1.0.0-rc2",
+    "method-override": "^2.3.10",
     "moment": "^2.18.1",
     "morgan": "1.1.1",
     "multer": "^1.3.0",
@@ -31,24 +33,18 @@
     "nodemailer-smtp-pool": "^2.8.3",
     "nodemailer-smtp-transport": "^2.7.4",
     "parse-json": "^3.0.0",
+    "passport": "^0.4.0",
+    "passport-github2": "^0.1.11",
     "request": "^2.81.0",
     "rsj": "0.0.4",
     "serve-favicon": "^2.4.4",
     "serve-static": "1.9.2",
     "soap": "^0.21.0",
     "stream": "0.0.2",
-<<<<<<< .mine
     "ws": "1.0.1",
     "xml2js": "^0.4.19",
     "xmlbuilder": "^9.0.4",
     "xmltojson": "^1.3.5"
-||||||| .r266
-    "ws": "1.0.1"
-=======
-    "ws": "1.0.1",
-    "xml2js": "^0.4.19",
-    "xmltojson": "^1.3.5"
->>>>>>> .r302
   },
   "engines": {
     "node": "0.12.0"
