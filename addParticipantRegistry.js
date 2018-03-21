@@ -12,9 +12,9 @@ return businessNetworkConnection.connect('admin@tutorial-network')
         participantRegistry = participantRegistry1[0];
         bfactory = participantRegistry1[1];
        
-        let participant = bfactory.newResource('org.acme.biznet', 'Trader', 'lillian5');
-        participant.firstName = 'Lillian';
-        participant.lastName = 'Doom';
+        let participant = bfactory.newResource('org.acme.biznet', 'Trader', 'bob2');
+        participant.firstName = 'Tom';
+        participant.lastName = 'Cruise';
         return participantRegistry.add(participant);
     })
     .then(() => {
@@ -24,3 +24,4 @@ return businessNetworkConnection.connect('admin@tutorial-network')
         console.error(error);
         process.exit(1);
     });
+    
