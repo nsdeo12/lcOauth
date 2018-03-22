@@ -101,6 +101,13 @@ const test = fst.addUser(user)
     })
 }
 module.exports.issuedidentity=issuedidentity;
+///test from another file requiring it starts
+'use strict';
+var fs=require('./issueIdentity');
+console.log("from identity==> ",fs.issuedidentity("ding dong"));
+///test from another file requiring it ends
+
+
 
 
 // var fs = require('fs');
